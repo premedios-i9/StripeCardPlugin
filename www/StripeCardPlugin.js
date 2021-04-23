@@ -17,6 +17,6 @@ var exec = require("cordova/exec");
 function StripeCardPlugin() {}
 
 exports.openStripeCardView = function  (successCallback, errorCallback) {
-    exec(successCallback, errorCallback, "StripeCardPlugin", "openCardViewCorodova");
+    exec(successCallback, errorCallback, "StripeCardViewPlugin", "openCardViewCorodova");
 };
 

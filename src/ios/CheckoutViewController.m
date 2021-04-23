@@ -17,23 +17,12 @@
 * After verifying the sample server is running locally, build and run the app using the iOS simulator.
 */
 //NSString *const BackendUrl = @"http://127.0.0.1:4242/";
-
-struct PaymentInfoStruct {
-    NSString *paymentMethodId;
-    NSString *last4;
-    NSString *expireMonth;
-    NSString *expireYear;
-} PaymentInfoStruct;
-
 @interface CheckoutViewController ()  <STPAuthenticationContext>
 
 @property (nonatomic, weak) STPPaymentCardTextField *cardTextField;
 @property (nonatomic, weak) UIButton *payButton;
-@property (nonatomic, weak) UITextField *emailTextField;
+//@property (nonatomic, weak) UITextField *emailTextField;
 @property (nonatomic, copy) NSString *setupIntentClientSecret;
-
-@property (nonatomic, copy) NSString *BackendUrl;
-@property (nonatomic, assign) struct PaymentInfoStruct *paymentInfo;
 
 @end
 
@@ -41,16 +30,16 @@ struct PaymentInfoStruct {
 @implementation CheckoutViewController
 
 NSString *BackendUrl = @"http://127.0.0.1:4242/";
-struct PaymentInfoStruct *paymentInfo = nil;
+void (^completion)(NSArray *) = nil;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     
-    UITextField *emailTextField = [UITextField new];
-    emailTextField.borderStyle = UITextBorderStyleRoundedRect;
-    emailTextField.placeholder = @"Enter your email";
-    self.emailTextField = emailTextField;
+//    UITextField *emailTextField = [UITextField new];
+//    emailTextField.borderStyle = UITextBorderStyleRoundedRect;
+//    emailTextField.placeholder = @"Enter your email";
+//    self.emailTextField = emailTextField;
 
     STPPaymentCardTextField *cardTextField = [[STPPaymentCardTextField alloc] init];
     self.cardTextField = cardTextField;
@@ -73,7 +62,8 @@ struct PaymentInfoStruct *paymentInfo = nil;
     mandateLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
     mandateLabel.textColor = UIColor.systemGrayColor;
     
-    UIStackView *stackView = [[UIStackView alloc] initWithArrangedSubviews:@[emailTextField, cardTextField, button, mandateLabel]];
+    UIStackView *stackView = [[UIStackView alloc] initWithArrangedSubviews:@[cardTextField, button, mandateLabel]];
+//    UIStackView *stackView = [[UIStackView alloc] initWithArrangedSubviews:@[emailTextField, cardTextField, button, mandateLabel]];
     stackView.axis = UILayoutConstraintAxisVertical;
     stackView.translatesAutoresizingMaskIntoConstraints = NO;
     stackView.spacing = 20;
@@ -143,11 +133,11 @@ struct PaymentInfoStruct *paymentInfo = nil;
     
     // Later, you will need to attach the PaymentMethod to the Customer it belongs to.
     // This example collects the customer's email to know which customer the PaymentMethod belongs to, but your app might use an account id, session cookie, etc.
-    STPPaymentMethodBillingDetails *billingDetails = [STPPaymentMethodBillingDetails new];
-    billingDetails.email = self.emailTextField.text;
+//    STPPaymentMethodBillingDetails *billingDetails = [STPPaymentMethodBillingDetails new];
+//    billingDetails.email = self.emailTextField.text;
     
     // Create SetupIntent confirm parameters with the above
-    STPPaymentMethodParams *paymentMethodParams = [STPPaymentMethodParams paramsWithCard:cardParams billingDetails:billingDetails metadata:nil];
+    STPPaymentMethodParams *paymentMethodParams = [STPPaymentMethodParams paramsWithCard:cardParams billingDetails:nil metadata:nil];
     STPSetupIntentConfirmParams *setupIntentParams = [[STPSetupIntentConfirmParams alloc] initWithClientSecret:self.setupIntentClientSecret];
     setupIntentParams.paymentMethodParams = paymentMethodParams;
 
@@ -171,23 +161,18 @@ struct PaymentInfoStruct *paymentInfo = nil;
                     break;
                 }
                 case STPPaymentHandlerActionStatusSucceeded: {
-                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Setup succeeded" message:setupIntent.description preferredStyle:UIAlertControllerStyleAlert];
-                    [alert addAction:[UIAlertAction actionWithTitle:@"Restart demo" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-                        [self.cardTextField clear];
-                        self.emailTextField.text = nil;
-                        [self startCheckout];
-                        
-                        
-                    }]];
-                    [self presentViewController:alert animated:YES completion:nil];
-                    struct PaymentInfoStruct paymentInfo;
+//                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Setup succeeded" message:setupIntent.description preferredStyle:UIAlertControllerStyleAlert];
+//                    [alert addAction:[UIAlertAction actionWithTitle:@"Restart demo" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+//                        [self.cardTextField clear];
+//                        self.emailTextField.text = nil;
+//                        [self startCheckout];
+//                    }]];
+//                    [self presentViewController:alert animated:YES completion:nil];
                     
-                    paymentInfo.paymentMethodId = [setupIntent paymentMethodID];
-                    paymentInfo.last4 = [cardParams last4];
-                    paymentInfo.expireMonth = [[cardParams expMonth] stringValue];
-                    paymentInfo.expireYear = [[cardParams expYear] stringValue];
-                    
-                    self->_paymentInfo = &paymentInfo;
+                    // execute return ok from cordova
+                    NSArray *payment = @[[setupIntent paymentMethodID], [cardParams last4], [[cardParams expMonth] stringValue], [[cardParams expYear] stringValue]];
+                    [self returnFromCordova:payment];
+                    [self dismissViewControllerAnimated:YES completion:nil];
                     
 //                    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: eventInfo[@"name"]];
 //                    pluginResult.keepCallback = @YES;
@@ -209,6 +194,18 @@ struct PaymentInfoStruct *paymentInfo = nil;
 # pragma mark STPAuthenticationContext
 - (UIViewController *)authenticationPresentingViewController {
     return self;
+}
+
+- (void) returnFromCordova:(NSArray* ) response {
+//    if (self.plugin != nil && self.callbackId != nil) {
+//        CDVPluginResult* pluginResult = nil;
+//        pluginResult = [CDVPluginResult resultWithStatus: CDVCommandStatus_OK messageAsMultipart:response];
+//        [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+//        [self.plugin.commandDelegate
+//            sendPluginResult:pluginResult
+//            callbackId: self.callbackId];
+//    }
+    self.completion(response);
 }
 
 @end
