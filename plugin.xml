@@ -1,54 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        id="cordova-stripe-save-payment-view" version="1.0.0">
-    
+    xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-stripe-save-payment-view" version="1.0.0">
+
     <name>Stripe Save Payment View</name>
     <description>Stripe Save Payment View Loader</description>
     <license>MIT</license>
 
     <!-- Add any other keywords you find necessary for your plugin -->
-<!--    <keywords>cordova,android,ios</keywords>-->
-    
+    <!--    <keywords>cordova,android,ios</keywords>-->
+
     <engines>
         <engine name="cordova" version=">=7.1.0"/>
-<!--        <engine name="cordova-android" version=">=8.0.0"/>-->
+        <!--        <engine name="cordova-android" version=">=8.0.0"/>-->
     </engines>
-  
+
     <!-- Change myplugin.js to the name of your plugin's main js file -->
     <js-module src="www/StripeCardPlugin.js" name="plugin">
         <!-- Change myPlugin to the name you want your plugin to be referenced from -->
         <clobbers target="cordova.plugins.StripeCardPlugin" />
     </js-module>
 
-<!--    <platform name="android">-->
-<!--        <config-file target="res/xml/config.xml" parent="/*">-->
-            <!-- Change this to your plugin name -->
-<!--            <feature name="MyPlugin">-->
-                <!-- Change this to reflect the name of the package in your android source files -->
-<!--                <param name="android-package" value="com.cordova.plugins.MyPlugin"/>-->
-<!--            </feature>-->
-<!--        </config-file>-->
+    <platform name="android">
+        <config-file parent="/manifest" target="AndroidManifest.xml">
+            <uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+        </config-file>
 
-        <!-- <source-file src="src/android/ToastyPlugin.java" target-dir="src/com/stanleyidesis/cordova/plugin" /> -->
-<!--    </platform>-->
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <activity android:name="com.fidelidade.stripe.AddPaymentCardActivity" android:label="Add Payment Card" android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        </config-file>
+
+        <config-file target="res/xml/config.xml" parent="/*">
+            <!-- Change this to your plugin name -->
+            <feature name="StripeCardPlugin">
+                <!-- Change this to reflect the name of the package in your android source files -->
+                <param name="android-package" value="com.fidelidade.stripe.StripePlugin"/>
+            </feature>
+        </config-file>
+
+        <source-file src="src/android/Utils.java" target-dir="src/com/fidelidade/stripe" />
+        <source-file src="src/android/AddPaymentCardActivity.java" target-dir="src/com/fidelidade/stripe" />
+        <source-file src="src/android/activity_add_payment_card.xml" target-dir="res/layout" />
+        <source-file src="src/android/content_add_payment_card.xml" target-dir="res/layout" />
+
+        <framework custom="true" src="src/android/stripe.gradle" type="gradleReference"/>
+    </platform>
+
     <platform name="ios">
         <config-file target="config.xml" parent="/*">
             <feature name="StripeCardPlugin">
                 <param name="ios-package" value="StripeCardViewPlugin" />
             </feature>
         </config-file>
-        
+
         <source-file src="src/ios/CheckoutViewController.m"/>
         <header-file src="src/ios/CheckoutViewController.h"/>
         <source-file src="src/ios/StripeCardViewPlugin.m"/>
         <header-file src="src/ios/StripeCardViewPlugin.h"/>
-        
-<!--        <framework src="Stripe" type="podspec" spec="21.4.0" />-->
+
+        <!--        <framework src="Stripe" type="podspec" spec="21.4.0" />-->
         <podspec>
-          <pods use-frameworks="true">
-            <pod name="Stripe" spec="~> 21.4.0" />
-          </pods>
+            <pods use-frameworks="true">
+                <pod name="Stripe" spec="~> 21.4.0" />
+            </pods>
         </podspec>
     </platform>
 </plugin>
