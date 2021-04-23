@@ -187,10 +187,6 @@ void (^completion)(NSArray *) = nil;
     }];
 }
 
-- (struct PaymentInfoStruct *)getPaymentMethod {
-    return _paymentInfo;
-}
-
 # pragma mark STPAuthenticationContext
 - (UIViewController *)authenticationPresentingViewController {
     return self;
