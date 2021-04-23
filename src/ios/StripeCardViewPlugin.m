@@ -19,15 +19,15 @@
 
 - (void) openCardViewCorodova:(CDVInvokedUrlCommand*) command {
     CDVPluginResult* pluginResult = nil;
-    NSString* myarg = [command.arguments objectAtIndex:0];
+//    NSString* myarg = [command.arguments objectAtIndex:0];
 
-    if (myarg != nil) {
+//    if (myarg != nil) {
         // enviar para view controller
-        self.openCardView:self.viewController
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-    } else {
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Must have "];
-    }
+    [self openCardView:self.viewController ];
+    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+//    } else {
+//        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Must have first argument"];
+//    }
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 

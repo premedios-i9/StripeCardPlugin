@@ -12,10 +12,11 @@ var exec = require("cordova/exec");
 /**
  * Constructor.
  *
- * @returns {MyPlugin}
+ * @returns {StripeCardPlugin}
  */
-function MyPlugin() {
+function StripeCardPlugin() {}
 
-}
-
+exports.openStripeCardView = function  (successCallback, errorCallback) {
+    exec(successCallback, errorCallback, "StripeCardPlugin", "openCardViewCorodova");
+};
 

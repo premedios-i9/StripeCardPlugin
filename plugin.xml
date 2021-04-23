@@ -18,7 +18,7 @@
     <!-- Change myplugin.js to the name of your plugin's main js file -->
     <js-module src="www/StripeCardPlugin.js" name="plugin">
         <!-- Change myPlugin to the name you want your plugin to be referenced from -->
-        <clobbers target="window.plugins.StripeCardPlugin" />
+        <clobbers target="cordova.plugins.StripeCardPlugin" />
     </js-module>
 
 <!--    <platform name="android">-->
@@ -43,5 +43,12 @@
         <header-file src="src/ios/CheckoutViewController.h"/>
         <source-file src="src/ios/StripeCardViewPlugin.m"/>
         <header-file src="src/ios/StripeCardViewPlugin.h"/>
+        
+<!--        <framework src="Stripe" type="podspec" spec="21.4.0" />-->
+        <podspec>
+          <pods use-frameworks="true">
+            <pod name="Stripe" spec="~> 21.4.0" />
+          </pods>
+        </podspec>
     </platform>
 </plugin>

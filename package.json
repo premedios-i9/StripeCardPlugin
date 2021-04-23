@@ -1,0 +1,14 @@
+{
+  "name": "cordova-stripe-save-payment-view",
+  "version": "1.0.0",
+  "description": "Cordova plugin for Stripe Card view",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+  }
+}
