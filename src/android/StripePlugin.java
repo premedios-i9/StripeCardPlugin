@@ -1,4 +1,4 @@
-package com.fidelidade.stripe;
+package com.fidelidade.stripecardplugin;
 
 import android.content.Intent;
 import android.util.Log;

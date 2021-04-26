@@ -1,4 +1,4 @@
-package com.fidelidade.stripe;
+package com.fidelidade.stripecardplugin;
 
 import android.content.Context;
 import android.content.res.XmlResourceParser;

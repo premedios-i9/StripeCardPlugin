@@ -21,6 +21,7 @@
 
 @property (nonatomic, weak) STPPaymentCardTextField *cardTextField;
 @property (nonatomic, weak) UIButton *payButton;
+@property (nonatomic, weak) UIButton *cancelButton;
 //@property (nonatomic, weak) UITextField *emailTextField;
 @property (nonatomic, copy) NSString *setupIntentClientSecret;
 
@@ -44,14 +45,22 @@ void (^completion)(NSArray *) = nil;
     STPPaymentCardTextField *cardTextField = [[STPPaymentCardTextField alloc] init];
     self.cardTextField = cardTextField;
 
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.layer.cornerRadius = 5;
-    button.backgroundColor = [UIColor systemBlueColor];
-    button.titleLabel.font = [UIFont systemFontOfSize:22];
-    [button setTitle:@"Save" forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(pay) forControlEvents:UIControlEventTouchUpInside];
-    self.payButton = button;
+    UIButton *payButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    payButton.layer.cornerRadius = 5;
+    payButton.backgroundColor = [UIColor systemBlueColor];
+    payButton.titleLabel.font = [UIFont systemFontOfSize:22];
+    [payButton setTitle:@"Save" forState:UIControlStateNormal];
+    [payButton addTarget:self action:@selector(pay) forControlEvents:UIControlEventTouchUpInside];
+    self.payButton = payButton;
     
+    UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    cancelButton.layer.cornerRadius = 5;
+    cancelButton.backgroundColor = [UIColor systemBlueColor];
+    cancelButton.titleLabel.font = [UIFont systemFontOfSize:22];
+    [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
+    [cancelButton addTarget:self action:@selector(cacnelPay) forControlEvents:UIControlEventTouchUpInside];
+    self.cancelButton = cancelButton;
+
     UILabel *mandateLabel = [UILabel new];
     // Collect permission to reuse the customer's card:
     // In your app, add terms on how you plan to process payments and
@@ -62,7 +71,7 @@ void (^completion)(NSArray *) = nil;
     mandateLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
     mandateLabel.textColor = UIColor.systemGrayColor;
     
-    UIStackView *stackView = [[UIStackView alloc] initWithArrangedSubviews:@[cardTextField, button, mandateLabel]];
+    UIStackView *stackView = [[UIStackView alloc] initWithArrangedSubviews:@[cardTextField, button, cancelButton, mandateLabel]];
 //    UIStackView *stackView = [[UIStackView alloc] initWithArrangedSubviews:@[emailTextField, cardTextField, button, mandateLabel]];
     stackView.axis = UILayoutConstraintAxisVertical;
     stackView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -120,6 +129,10 @@ void (^completion)(NSArray *) = nil;
             [self presentViewController:alert animated:YES completion:nil];
         });
     }
+}
+
+- (void)cancelPay {
+    
 }
 
 - (void)pay {
