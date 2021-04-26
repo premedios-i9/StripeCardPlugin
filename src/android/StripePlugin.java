@@ -37,7 +37,7 @@ public class StripePlugin extends CordovaPlugin {
 
             switch (Actions.getActionByName(action)) {
                 case ADDPAYMENTCARD:
-                    addPaymentCard(args);
+                    openCardViewCordova(args);
                     break;
                 case INVALID:
                     callbackContext.error(Actions.INVALID.getDescription());
@@ -94,7 +94,7 @@ public class StripePlugin extends CordovaPlugin {
 
     private enum Actions {
 
-        ADDPAYMENTCARD("addPaymentCard", "Add payment card"),
+        ADDPAYMENTCARD("openCardViewCorodova", "Add payment card"),
         INVALID("", "Invalid or not found action!");
 
         private String action;

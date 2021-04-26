@@ -38,7 +38,7 @@
             <!-- Change this to your plugin name -->
             <feature name="StripeCard">
                 <!-- Change this to reflect the name of the package in your android source files -->
-                <param name="android-package" value="com.fidelidade.stripe.stripecardplugin"/>
+                <param name="android-package" value="com.fidelidade.stripecardplugin.StripePlugin"/>
             </feature>
         </config-file>
 
