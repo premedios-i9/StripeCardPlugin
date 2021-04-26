@@ -58,7 +58,7 @@ void (^completion)(NSArray *) = nil;
     cancelButton.backgroundColor = [UIColor systemBlueColor];
     cancelButton.titleLabel.font = [UIFont systemFontOfSize:22];
     [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
-    [cancelButton addTarget:self action:@selector(cacnelPay) forControlEvents:UIControlEventTouchUpInside];
+    [cancelButton addTarget:self action:@selector(cancelPay) forControlEvents:UIControlEventTouchUpInside];
     self.cancelButton = cancelButton;
 
     UILabel *mandateLabel = [UILabel new];
@@ -71,7 +71,7 @@ void (^completion)(NSArray *) = nil;
     mandateLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
     mandateLabel.textColor = UIColor.systemGrayColor;
     
-    UIStackView *stackView = [[UIStackView alloc] initWithArrangedSubviews:@[cardTextField, button, cancelButton, mandateLabel]];
+    UIStackView *stackView = [[UIStackView alloc] initWithArrangedSubviews:@[cardTextField, payButton, cancelButton, mandateLabel]];
 //    UIStackView *stackView = [[UIStackView alloc] initWithArrangedSubviews:@[emailTextField, cardTextField, button, mandateLabel]];
     stackView.axis = UILayoutConstraintAxisVertical;
     stackView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -132,7 +132,9 @@ void (^completion)(NSArray *) = nil;
 }
 
 - (void)cancelPay {
-    
+    [self dismissViewControllerAnimated:YES completion:^{
+        [self returnFromCordova:nil];
+    }];
 }
 
 - (void)pay {

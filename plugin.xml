@@ -42,7 +42,8 @@
             </feature>
         </config-file>
 
-        <source-file src="src/android/Utils.java" target-dir="src/com/fidelidade/stripe" />
+        <source-file src="src/android/StripePlugin.java" target-dir="src/com/fidelidade/stripecardplugin" />
+        <source-file src="src/android/Utils.java" target-dir="src/com/fidelidade/stripecardplugin" />
         <source-file src="src/android/AddPaymentCardActivity.java" target-dir="src/com/fidelidade/stripecardplugin" />
         <source-file src="src/android/activity_add_payment_card.xml" target-dir="res/layout" />
         <source-file src="src/android/content_add_payment_card.xml" target-dir="res/layout" />
@@ -64,6 +65,9 @@
 
         <!--        <framework src="Stripe" type="podspec" spec="21.4.0" />-->
         <podspec>
+            <config>
+                <source url="https://github.com/CocoaPods/Specs.git"/>
+            </config>
             <pods use-frameworks="true">
                 <pod name="Stripe" spec="~> 21.4.0" />
             </pods>

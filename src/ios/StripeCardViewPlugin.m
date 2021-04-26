@@ -10,7 +10,7 @@
 #import "StripeCardViewPlugin.h"
 #import "CheckoutViewController.h"
 
-@implementation StripeCardViewPlugin : CDVPlugin
+@implementation StripeCardPlugin : CDVPlugin
 
 -(void) openCardView:(UIViewController *) presentingViewController withcallbackId:(NSString*) callbackId andPlugin:(CDVPlugin *) plugin andCompletion:(void (^)(NSArray *))completion {
     
@@ -28,7 +28,22 @@
     [self openCardView:self.viewController withcallbackId: command.callbackId andPlugin:self andCompletion:^(NSArray *response)  {
         
         CDVPluginResult* pluginResult = nil;
-        pluginResult = [CDVPluginResult resultWithStatus: CDVCommandStatus_OK messageAsMultipart:response];
+        
+        if (response != nil) {
+            NSDictionary *responseDict = @{@"LAST4": response[1],
+                                           @"ID": response[0],
+                                           @"EXPIRYMONTH": response[2],
+                                           @"EXPIRYYEAR": response[3]
+            };
+            
+            pluginResult = [CDVPluginResult resultWithStatus: CDVCommandStatus_OK messageAsDictionary:responseDict];
+        } else {
+            NSDictionary *responseDict = @{@"ERRORMESSAGE": @"Cancelled"};
+            
+            pluginResult = [CDVPluginResult resultWithStatus: CDVCommandStatus_OK messageAsDictionary:responseDict];
+        }
+        
+        
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
     
