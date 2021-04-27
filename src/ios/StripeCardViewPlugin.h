@@ -11,9 +11,8 @@
 
 #import <Cordova/CDV.h>
 #import <UIKit/UIKit.h>
-@interface StripeCardViewPlugin : CDVPlugin
--(void) openCardView:(UIViewController *) presentingViewController withcallbackId:(NSString*) callbackId andPlugin:(CDVPlugin *) plugin andCompletion:(void (^)(NSArray *))completion;
+@interface StripeCardPlugin : CDVPlugin
+- (void)openCardView:(UIViewController *)presentingViewController withcallbackId:(NSString *)callbackId andPlugin:(CDVPlugin *)plugin andCompletion:(void (^)(NSArray *))completion;
 @end
 
 #endif /* StripeCardViewPlugin_h */
-

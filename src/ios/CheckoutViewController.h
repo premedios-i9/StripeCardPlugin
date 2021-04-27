@@ -12,8 +12,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CheckoutViewController : UIViewController
-    @property (nonatomic, copy) NSString *BackendUrl;
-    @property (nonatomic, copy) void (^completion)(NSArray *);
+
+@property(nonatomic, copy) NSString *BackendUrl;
+@property(nonatomic, copy) void (^completion)(NSArray *response);
+@property(nonatomic, copy) NSArray *args;
 
 @end
 

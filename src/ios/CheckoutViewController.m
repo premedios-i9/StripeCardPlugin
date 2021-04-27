@@ -83,8 +83,12 @@ void (^completion)(NSArray *) = nil;
         [self.view.rightAnchor constraintEqualToSystemSpacingAfterAnchor:stackView.rightAnchor multiplier:2],
         [stackView.topAnchor constraintEqualToSystemSpacingBelowAnchor:self.view.topAnchor multiplier:2],
     ]];
-
-    [self startCheckout];
+    
+    if (self.args.count == 0) {
+        [self startCheckout];
+    } else {
+        self.setupIntentClientSecret = self.args[0];
+    }
 }
 
 - (void)startCheckout {
@@ -111,9 +115,9 @@ void (^completion)(NSArray *) = nil;
         }
         else {
             self.setupIntentClientSecret = json[@"clientSecret"];
-            NSString *stripePublishableKey = json[@"publishableKey"];
+            //NSString *stripePublishableKey = json[@"publishableKey"];
             // Configure the SDK with your Stripe publishable key so that it can make requests to the Stripe API
-            [StripeAPI setDefaultPublishableKey:stripePublishableKey];
+            //[StripeAPI setDefaultPublishableKey:stripePublishableKey];
         }
     }];
     [task resume];
