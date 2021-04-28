@@ -66,7 +66,7 @@
         <!--        <framework src="Stripe" type="podspec" spec="21.4.0" />-->
         <podspec>
             <config>
-                <source url="https://github.com/CocoaPods/Specs.git"/>
+                <source url="https://cdn.cocoapods.org/"/>
             </config>
             <pods use-frameworks="true">
                 <pod name="Stripe" spec="~> 21.4.0" />

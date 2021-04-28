@@ -84,7 +84,7 @@ void (^completion)(NSArray *) = nil;
         [stackView.topAnchor constraintEqualToSystemSpacingBelowAnchor:self.view.topAnchor multiplier:2],
     ]];
     
-    if (self.args.count == 0) {
+    if (self.args[0] == [NSNull null]) {
         [self startCheckout];
     } else {
         self.setupIntentClientSecret = self.args[0];
@@ -156,6 +156,9 @@ void (^completion)(NSArray *) = nil;
 //    billingDetails.email = self.emailTextField.text;
     
     // Create SetupIntent confirm parameters with the above
+    STPCardBrand brandEnum = [STPCardValidator brandForNumber: cardParams.number];
+    NSString* brand = [STPCardBrandUtilities stringFromCardBrand:brandEnum];
+    
     STPPaymentMethodParams *paymentMethodParams = [STPPaymentMethodParams paramsWithCard:cardParams billingDetails:nil metadata:nil];
     STPSetupIntentConfirmParams *setupIntentParams = [[STPSetupIntentConfirmParams alloc] initWithClientSecret:self.setupIntentClientSecret];
     setupIntentParams.paymentMethodParams = paymentMethodParams;
@@ -189,7 +192,7 @@ void (^completion)(NSArray *) = nil;
 //                    [self presentViewController:alert animated:YES completion:nil];
                     
                     // execute return ok from cordova
-                    NSArray *payment = @[[setupIntent paymentMethodID], [cardParams last4], [[cardParams expMonth] stringValue], [[cardParams expYear] stringValue]];
+                    NSArray *payment = @[[setupIntent paymentMethodID], [cardParams last4], [[cardParams expMonth] stringValue], [[cardParams expYear] stringValue], brand];
                     [self returnFromCordova:payment];
                     [self dismissViewControllerAnimated:YES completion:nil];
                     
